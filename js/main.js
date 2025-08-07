@@ -1,15 +1,15 @@
-// ===== Завдання 1 =====
-const categoriesList = document.querySelectorAll("#categories .item");
-console.log(`У списку ${categoriesList.length} категорії.`);
+const categoriesList = document.querySelector("#categories");
+const categoryItems = categoriesList.querySelectorAll(".item");
 
-categoriesList.forEach((category) => {
-  const title = category.querySelector("h2").textContent;
-  const itemsCount = category.querySelectorAll("ul li").length;
+console.log(`У списку ${categoryItems.length} категорії.`);
+
+categoryItems.forEach((item) => {
+  const title = item.querySelector("h2").textContent;
+  const elementsCount = item.querySelectorAll("ul li").length;
   console.log(`Категорія: ${title}`);
-  console.log(`Кількість елементів: ${itemsCount}`);
+  console.log(`Кількість елементів: ${elementsCount}`);
 });
 
-// ===== Завдання 2 =====
 const ingredients = [
   "Картопля",
   "Гриби",
@@ -18,21 +18,16 @@ const ingredients = [
   "Зелень",
   "Приправи",
 ];
+const listRef = document.querySelector("#ingredients");
 
-const ingredientsList = document.querySelector("#ingredients");
+const addIngredients = ingredients.map((item) => {
+  const liRef = document.createElement("li");
+  liRef.textContent = item;
+  return liRef;
+});
 
-if (ingredientsList) {
-  const items = ingredients.map((ingredient) => {
-    const li = document.createElement("li");
-    li.textContent = ingredient;
-    return li;
-  });
-  ingredientsList.append(...items);
-} else {
-  console.warn('Елемент з id="ingredients" не знайдено. Пропускаю завдання 2.');
-}
+listRef.append(...ingredients);
 
-// ===== Завдання 3 =====
 const images = [
   {
     url: "https://images.pexels.com/photos/140134/pexels-photo-140134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
@@ -48,19 +43,31 @@ const images = [
   },
 ];
 
-const gallery = document.querySelector("#gallery");
+const secondLiRef = document.querySelector("#gallery");
 
-if (gallery) {
-  gallery.classList.add("gallery");
+const createImgRef = images.map((item) => {
+  const itemRef = document.createElement("li");
+  const imageRef = document.createElement("img");
+  imageRef.src = item.url;
+  imageRef.alt = item.alt;
+  itemRef.appendChild(imageRef);
+  itemRef.classList.add("gallery-item");
+  imageRef.classList.add("gallery-img");
+  return itemRef;
+});
 
-  const markup = images
-    .map(
-      ({ url, alt }) =>
-        `<li class="gallery-item"><img src="${url}" alt="${alt}" width="300"></li>`
-    )
-    .join("");
+secondLiRef.append(...createImgRef);
 
-  gallery.insertAdjacentHTML("beforeend", markup);
-} else {
-  console.warn('Елемент з id="gallery" не знайдено. Пропускаю завдання 3.');
-}
+const decrementBtnRef = document.querySelector('[data-action="decrement"]');
+const incrementBtnRef = document.querySelector('[data-action="increment"]');
+const valueRef = document.querySelector("#value");
+let counterValue = 0;
+decrementBtnRef.addEventListener("click", () => {
+  counterValue -= 1;
+  valueRef.textContent = counterValue;
+});
+
+incrementBtnRef.addEventListener("click", () => {
+  counterValue += 1;
+  valueRef.textContent = counterValue;
+});
